@@ -4,7 +4,7 @@ from chips import views
 
 urlpatterns = patterns(
     '',
-    url(r'^$', views.HelloWorld.as_view(), {}, name='hello-world'),
+    url(r'^$', views.Home.as_view(), {}, name='home'),
     url(r'^__exception_test__/$', views.exception_test, {}),
 )
 
