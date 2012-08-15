@@ -6,7 +6,7 @@ APPENGINE_PRODUCTION = os.getenv('APPENGINE_PRODUCTION')
 HTTP_HOST = os.environ.get('HTTP_HOST')
 
 PROJDIR = os.path.abspath(os.path.dirname(__file__))
-APPDIR = os.path.join(PROJDIR, 'core')
+APPDIR = os.path.join(PROJDIR, 'chips')
 
 DEBUG = not APPENGINE_PRODUCTION
 TEMPLATE_DEBUG = DEBUG
@@ -74,7 +74,7 @@ else:
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Europe/London'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -130,7 +130,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '^(&s11q!@t2j@=dgpp65k+df6o1(@1h9cq-$^p@=k4!5))xi6u'
+SECRET_KEY = ')$3f1q!@t2jasdpp65k+df6o1(@1h9cq-$^p@=k%4!a#*i6u'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -162,7 +162,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
+    'chips',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
