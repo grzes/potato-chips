@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from chips.forms import SignupForm
 
 
-def list(request):
+def postlist(request):
     """The blog view, if no user logged in or chosen display the home page."""
     request.session['message'] = 'Sessions seem okay!'
     return render(request, "home.html", {
@@ -22,7 +22,7 @@ def dash(request):
         return redirect(reverse('list'))
 
     if not request.user_blog:
-        return redirect(reverse('signup'))
+        return redirect(reverse('signup')) 
 
 
 def signup(request):
@@ -42,13 +42,8 @@ def signup(request):
         })
 
 
-
 def exception_test(request):
     logging.debug('Debug log')
     logging.warn('Warn log')
     logging.error('Error log')
     raise Exception()
-    
-
-
-    

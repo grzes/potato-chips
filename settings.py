@@ -144,7 +144,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'chips.middleware.UserBlogMiddleware',
+    'chips.users.UserBlogMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -153,7 +153,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
-    'chips.processors.user_urls'
+    'chips.users.user_urls'
 )
 
 ROOT_URLCONF = 'urls'
