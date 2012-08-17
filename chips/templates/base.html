@@ -12,6 +12,10 @@
 
       <div class="user">
       {% if user %}
+        {% if user_blog %}
+          <a href="{{user_blog.absolute_url}}">my blog</a> |
+        {% endif %}
+
         {{user.nickname}} | <a href="{{logout_url}}">logout</a>
       {% else %}
         <a href="{{login_url}}">login</a>

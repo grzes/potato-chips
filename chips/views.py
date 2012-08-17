@@ -12,6 +12,7 @@ def postlist(request):
     """The blog view, if no user logged in or chosen display the home page."""
     request.session['message'] = 'Sessions seem okay!'
     return render(request, "home.html", {
+            'blog': request.blog,
             'message': request.session.get('message', None),
         })
 
@@ -22,7 +23,7 @@ def dash(request):
 
     It's like the main blog view but shows friend's posts."""
     return render(request, "home.html")
-    
+
 
 @require_user(with_blog=False)
 def signup(request):

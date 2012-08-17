@@ -34,7 +34,7 @@ class SignupForm(forms.Form):
 
         if url:
             db.run_in_transaction(tx, 
-                url, 
+                url.lower(), 
                 self.owner.user_id(),
                 hashlib.md5(self.owner.email()).hexdigest())
 

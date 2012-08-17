@@ -17,8 +17,9 @@ class UserBlogMiddleware(object):
         else:
             request.user_blog = None
 
-        host = request.get_host().lower()
-        request.blog = None
+        host_prefix = request.get_host().lower().split('.', 1)[0]
+        if host_prefix != settings.SITE_DOMAIN:
+            request.blog = Blog.get_by_key_name(host_prefix)
 
 
 def user_urls(request):
@@ -26,6 +27,7 @@ def user_urls(request):
     context = {}
     if request.user:
         context['user'] = request.user
+        context['user_blog'] = request.user_blog
         context['logout_url'] = users.create_logout_url(reverse('postlist'))
     else:
         context['login_url'] = users.create_login_url(reverse('dash'))
