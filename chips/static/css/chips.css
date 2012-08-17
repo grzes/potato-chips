@@ -35,6 +35,12 @@ html, body {
 .content-wrap {
 	border-top: 2px solid #666;
 	background: #ffe89e;
+	padding:30px;
+}
+
+.content {
+	width: 500px;
+	margin:auto;
 }
 
 h1 {
