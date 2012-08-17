@@ -65,7 +65,7 @@ else:
         }
 """
 
-SITE_DOMAIN = 'potato-chips.appspot.com' if APPENGINE_PRODUCTION else 'localhost'
+SITE_DOMAIN = 'potato-chips.appspot.com' if APPENGINE_PRODUCTION else 'localhost:8080'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
