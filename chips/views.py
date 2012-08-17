@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
 from chips.forms import SignupForm
+from chips.users import require_user
 
 
 def postlist(request):
@@ -15,20 +16,19 @@ def postlist(request):
         })
 
 
+@require_user(with_blog=True)
 def dash(request):
     """Users dashboard.
+
     It's like the main blog view but shows friend's posts."""
-    if not request.user:
-        return redirect(reverse('list'))
+    return render(request, "home.html")
+    
 
-    if not request.user_blog:
-        return redirect(reverse('signup')) 
-
-
+@require_user(with_blog=False)
 def signup(request):
     """Sets up a users's blog under a chosen name."""
-    if not request.user:
-        return redirect(reverse('list'))
+    if request.user_blog:
+        return redirect(reverse('dash')) # already have one
 
     if request.method == 'POST':
         form = SignupForm(request.POST, owner=request.user)

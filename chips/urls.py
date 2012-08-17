@@ -2,9 +2,10 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from chips import views
 
+
 urlpatterns = patterns(
     '',
-    url(r'^$', views.list, name='list'),
+    url(r'^$', views.postlist, name='postlist'),
     url(r'^dash/$', views.dash, name='dash'),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^__exception_test__/$', views.exception_test, {}),
