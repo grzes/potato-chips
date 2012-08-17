@@ -1,7 +1,7 @@
 <!DOCTYPE html><!-- 01011001011011110111010100100000011000100110010101110100001000000100100100100000011101110110111101110101011011000110010000100001 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
   <head>
-    <title>Hello World</title>
+    <title>Potato Chips</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="{{STATIC_URL}}css/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="{{STATIC_URL}}css/chips.css" type="text/css" media="screen">
@@ -9,6 +9,14 @@
   <body>
     <div class="header">
       <h1>potato chips</h1>
+
+      <div class="user">
+      {% if user %}
+        {{user.nickname}} | <a href="{{logout_url}}">logout</a>
+      {% else %}
+        <a href="{{login_url}}">login</a>
+      {% endif %}
+      </div>
     </div>
 
     <div class="content-wrap">

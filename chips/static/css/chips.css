@@ -9,6 +9,13 @@ html, body {
 	background: #d99b22;
 	padding: 5px;
 	border-bottom: 1px solid #333;
+	position: relative;
+}
+
+.user {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
 }
 
 .footer {
@@ -45,6 +52,7 @@ h1 {
 	margin: 100px auto 20px auto;
 	text-align: center;
 	display: block;
+	height: 100px;
 }
 
 .quotes {
