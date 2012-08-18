@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.utils.html import escape
 from google.appengine.ext import db
+from utils import prefetch_refprops
 
 
 class Blog(db.Model):
@@ -51,7 +52,9 @@ class Post(db.Model):
     def query_for(cls, reader):
         query = PostIndex.all(keys_only=True).filter("b =", reader.key())
         indices = query.order('-created').fetch(100)
-        return db.get([i.parent() for i in indices])
+        objs = db.get([i.parent() for i in indices])
+        prefetch_refprops(objs, Post.author)
+        return objs
 
 
 class PostIndex(db.Model):

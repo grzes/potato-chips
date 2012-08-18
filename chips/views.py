@@ -11,10 +11,8 @@ from chips.users import require_user
 
 def postlist(request):
     """The blog view, if no user logged in or chosen display the home page."""
-    request.session['message'] = 'Sessions seem okay!'
     return render(request, "home.html", {
             'blog': request.blog,
-            'message': request.session.get('message', None),
         })
 
 
@@ -33,7 +31,6 @@ def dash(request):
         form = PostForm(blog=request.user_blog)
 
     posts = Post.query_for(reader=request.user_blog)
-
 
     return render(request, "dash.html", {
             'form': form,
