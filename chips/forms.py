@@ -7,7 +7,7 @@ from django import forms
 
 from google.appengine.ext import db
 
-from chips.models import Blog
+from chips.models import Blog, Friends
 
 
 class SignupForm(forms.Form):
@@ -29,8 +29,7 @@ class SignupForm(forms.Form):
             if blog:
                 raise forms.ValidationError(_("The chosen url is already taken"))
 
-            blog = Blog(key_name=url, owner=user_id, emailhash=email_hash)
-            blog.put()
+            Blog.create(key_name=url, owner=user_id, emailhash=email_hash)
 
         if url:
             db.run_in_transaction(tx, 
