@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="post">
+	<form method="post">
+	<span class="author">
+		<img src="http://www.gravatar.com/avatar/{{blog.emailhash}}?s=21"/>
+		{{blog.key.name}}
+	</span>
+	<span class="tools">
+		<input type="submit" value="Post"/>
+	</span>
+	<p class="text">
+		{{ form.text }}
+	</p>
+	{% csrf_token %}
+</form>
+</div>
+{% endblock %}

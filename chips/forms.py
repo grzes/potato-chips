@@ -7,7 +7,7 @@ from django import forms
 
 from google.appengine.ext import db
 
-from chips.models import Blog, Friends
+from chips.models import Blog, Post
 
 
 class SignupForm(forms.Form):
@@ -27,7 +27,7 @@ class SignupForm(forms.Form):
         def tx(url, user_id, email_hash):
             blog = Blog.get_by_key_name(url)
             if blog:
-                raise forms.ValidationError(_("The chosen url is already taken"))
+                raise forms.ValidationError("The chosen url is already taken")
 
             Blog.create(key_name=url, owner=user_id, emailhash=email_hash)
 
@@ -36,4 +36,20 @@ class SignupForm(forms.Form):
                 url.lower(), 
                 self.owner.user_id(),
                 hashlib.md5(self.owner.email()).hexdigest())
+
+
+class PostForm(forms.Form):
+    """Blog post creation form."""
+    text = forms.CharField(max_length=450, widget=forms.Textarea) 
+
+    def __init__(self, *a, **kw):
+        self.blog = kw.pop('blog')
+        super(PostForm, self).__init__(*a, **kw)
+
+    def save(self):
+        Post.create(author=self.blog,
+            text=self.cleaned_data['text'],
+            friends=self.blog.friends()
+        )
+
 

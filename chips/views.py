@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
-from chips.forms import SignupForm
+from chips.forms import SignupForm, PostForm
 from chips.users import require_user
 
 
@@ -22,7 +22,19 @@ def dash(request):
     """Users dashboard.
 
     It's like the main blog view but shows friend's posts."""
-    return render(request, "home.html")
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, blog=request.user_blog)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('dash'))
+    else:
+        form = PostForm(blog=request.user_blog)
+        
+    return render(request, "dash.html", {
+            'form': form,
+            'blog': request.user_blog
+        })
 
 
 @require_user(with_blog=False)

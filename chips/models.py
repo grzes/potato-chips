@@ -31,16 +31,17 @@ class Friends(db.Model):
 class Post(db.Model):
     """Blog post."""
     author = db.ReferenceProperty(Blog)
-    text = db.StringProperty()
+    text = db.TextProperty()
     deleted = db.BooleanProperty(default=False)
     created = db.DateTimeProperty(auto_now_add=True, required=True)
 
     @classmethod
-    def create(cls, author, text):
+    @db.transactional
+    def create(cls, author, text, friends):
         """Creating a blogpost along a reader index."""
         post = cls(author=author, text=text)
         post.put()
-        PostIndex('i', parent=post, created=post.created, b=author.friends()).put()
+        PostIndex(key_name='i', parent=post, created=post.created, b=friends).put()
 
 
 class PostIndex(db.Model):
