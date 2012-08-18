@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import logging
 from django.conf import settings
+from django.utils.html import escape
 from google.appengine.ext import db
 
 
@@ -35,6 +36,8 @@ class Post(db.Model):
     deleted = db.BooleanProperty(default=False)
     created = db.DateTimeProperty(auto_now_add=True, required=True)
 
+    def rendered_text(self):
+        return escape(self.text).replace("\n", "<br/>")
     @classmethod
     @db.transactional
     def create(cls, author, text, friends):
@@ -42,6 +45,13 @@ class Post(db.Model):
         post = cls(author=author, text=text)
         post.put()
         PostIndex(key_name='i', parent=post, created=post.created, b=friends).put()
+
+
+    @classmethod
+    def query_for(cls, reader):
+        query = PostIndex.all(keys_only=True).filter("b =", reader.key())
+        indices = query.order('-created').fetch(100)
+        return db.get([i.parent() for i in indices])
 
 
 class PostIndex(db.Model):

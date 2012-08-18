@@ -17,4 +17,15 @@
 	{% csrf_token %}
 </form>
 </div>
+
+{% for post in posts %}
+	<div class="post">
+		<span class="author">
+			<img src="http://www.gravatar.com/avatar/{{post.author.emailhash}}?s=21"/>
+			{{post.author.key.name}}
+		</span>
+		<span class="date">{{post.created}}</span>
+		<p class="text">{{post.rendered_text|safe}}</p>
+	</div>
+{% endfor %}
 {% endblock %}

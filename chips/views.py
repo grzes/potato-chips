@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
 from chips.forms import SignupForm, PostForm
+from chips.models import Post
 from chips.users import require_user
 
 
@@ -30,10 +31,14 @@ def dash(request):
             return redirect(reverse('dash'))
     else:
         form = PostForm(blog=request.user_blog)
-        
+
+    posts = Post.query_for(reader=request.user_blog)
+
+
     return render(request, "dash.html", {
             'form': form,
-            'blog': request.user_blog
+            'blog': request.user_blog,
+            'posts': posts
         })
 
 
