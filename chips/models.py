@@ -7,7 +7,7 @@ from utils import prefetch_refprops
 
 
 class Blog(db.Model):
-    """A user profile of sorts, used only for the storing emailhash."""
+    """A user profile of sorts, used only for the storing of emailhash'es."""
     owner = db.StringProperty(required=True)
     emailhash = db.StringProperty(required=True)
 
@@ -21,6 +21,13 @@ class Blog(db.Model):
 
         # Create the initial friends list
         Friends(key_name='friends', parent=blog, f=[blog.key()]).put()
+
+    def follow(self, new_friend):
+        """Add onself to new_friend's follower list."""
+        friends = Friends.get_by_key_name('friends', parent=new_friend)
+        if self.key() not in friends.f:
+            friends.f.append(self.key())
+            friends.put()
 
 
 class Friends(db.Model):
