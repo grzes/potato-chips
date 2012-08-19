@@ -19,14 +19,14 @@ html, body {
 }
 
 .footer {
-	background: url(../img/footer.png) top repeat-x;
+	background: url(../img/footer.jpg) top repeat-x;
 	border-top: 1px solid #999;
 	text-align: center;
 	font-size: 0.9em;
 }
 .footer-wrap {
 	height:100px;
-	background: url(../img/fries.png) bottom center no-repeat;
+	background: url(../img/fries.jpg) bottom center no-repeat;
 }
 .footer-wrap p {
 	padding: 30px;
