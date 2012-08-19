@@ -10,19 +10,19 @@ from google.appengine.ext import db
 from google.appengine.ext import testbed
 
 from django.core.urlresolvers import reverse
-from chips.models import Blog
+from chips.models import Blog, Post
 
 
 settings.SITE_DOMAIN = 'testserver' # our blog selection middleware needs to match on the host
 
 
-
-class UserBlog(unittest.TestCase):
+class TestCase(unittest.TestCase):
     def setUp(self):
         self.testbed = testbed.Testbed()
         self.testbed.activate()
         self.testbed.init_datastore_v3_stub()
-        self.testbed.init_user_stub(enable=not False)
+        self.testbed.init_user_stub()
+        self.client = Client()
 
     def login(self, email='', user_id=''):
         default_env = copy(testbed.DEFAULT_ENVIRONMENT)
@@ -31,12 +31,38 @@ class UserBlog(unittest.TestCase):
     def tearDown(self):
         self.testbed.deactivate()
 
+
+class UserBlog(TestCase):
     def test_a_blogless_user(self):
         """Without a blog a user is redirected from his dash to the signup page"""
-        self.login('test@example.com', user_id='1')
-        client = Client()
-        response = client.get(reverse('dash'))
+        self.login('blogless@example.com', user_id='1')
+        response = self.client.get(reverse('dash'))
         self.assertEqual('http://testserver'+reverse('signup'), response['location'])
+
+    def test_blogging_user(self):
+        """A user with a blog can view their dash."""
+        self.login('blog@example.com', user_id='2')
+        Blog.create(key_name='blog', owner='2', emailhash='#')
+        response = self.client.get(reverse('dash'))
+        self.assertEqual(200, response.status_code)
+
+
+class BlogVisibility(TestCase):
+    def setUp(self):
+        super(BlogVisibility, self).setUp()
+
+        b1 = Blog.create(key_name='john', owner='1', emailhash='#')
+        b2 = Blog.create(key_name='bob', owner='2', emailhash='#')
+
+        self.p1 = Post.create(author=b1, text="t1", friends=b1.friends())
+        self.p2 = Post.create(author=b2, text="t2", friends=b2.friends())
+        self.p3 = Post.create(author=b1, text="t3", friends=b1.friends())
+
+    def test_dash_postlist(self):
+        """Only see own posts in the dash"""
+        self.login('john.example.com', user_id='1')
+        response = self.client.get(reverse('dash'))
+        self.assertEqual(['t3', 't1'], [p.text for p in response.context['posts']])
 
 
 if __name__ == '__main__':

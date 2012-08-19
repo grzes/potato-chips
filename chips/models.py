@@ -15,12 +15,14 @@ class Blog(db.Model):
         return Friends.get_by_key_name('friends', parent=self).f
 
     @classmethod
+    @db.transactional
     def create(cls, **properties):
         blog = cls(**properties)
         blog.put()
 
         # Create the initial friends list
         Friends(key_name='friends', parent=blog, f=[blog.key()]).put()
+        return blog
 
     def follow(self, new_friend):
         """Add onself to new_friend's follower list."""
@@ -53,6 +55,7 @@ class Post(db.Model):
         post = cls(author=author, text=text)
         post.put()
         PostIndex(key_name='i', parent=post, created=post.created, b=friends).put()
+        return post
 
 
     @classmethod
