@@ -4,28 +4,31 @@
 {% block content %}
 <div class="post">
 	<form method="post">
-	<span class="author">
-		<img src="http://www.gravatar.com/avatar/{{blog.emailhash}}?s=21"/>
-		{{blog.key.name}}
-	</span>
-	<span class="tools">
-		<input type="submit" value="Post"/>
-	</span>
-	<p class="text">
+	<div class="text">
 		{{ form.text }}
-	</p>
+		{{ form.text.errors }}
+	</div>
+	<div class="tools">
+		<span class="author">
+		<img src="http://www.gravatar.com/avatar/{{blog.emailhash}}?s=19f"/>
+		{{blog.key.name}}
+		</span>
+		<input class="date" type="submit" value="Post"/>
+	</div>
 	{% csrf_token %}
 </form>
 </div>
 
 {% for post in posts %}
 	<div class="post">
-		<span class="author">
-			<img src="http://www.gravatar.com/avatar/{{post.author.emailhash}}?s=21"/>
-			{{post.author.key.name}}
-		</span>
-		<span class="date">{{post.created}}</span>
-		<p class="text">{{post.rendered_text|safe}}</p>
+		<div class="text">{{post.rendered_text|safe}}</div>
+		<div class="tools">
+			<span class="author">
+				<img src="http://www.gravatar.com/avatar/{{post.author.emailhash}}?s=20"/>
+				{{post.author.key.name}}
+			</span>
+			<span class="date">{{post.created|date:"M d, H:i"|lower}}</span>
+		</div>
 	</div>
 {% endfor %}
 {% endblock %}
