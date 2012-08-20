@@ -77,6 +77,7 @@ class BlogVisibility(TestCase):
         response = self.client.get(reverse('dash'))
         self.assertEqual(['t3', 't2', 't1'], [p.text for p in response.context['posts']])
 
+
     def test_req_following_postlist(self):
         """After following someone you can see their posts (follow via request)"""
         self.login('john.example.com', user_id='1')
@@ -84,6 +85,11 @@ class BlogVisibility(TestCase):
         self.create_posts()
         response = self.client.get(reverse('dash'))
         self.assertEqual(['t3', 't2', 't1'], [p.text for p in response.context['posts']])
+
+        # but john's blog still only shows his posts
+        response = self.client.get(blogurl('john'), SERVER_NAME='john')
+        self.assertEqual(['t3', 't1'], [p.text for p in response.context['posts']])
+
 
     def test_blog_postlist(self):
         """The blog subdomains allow anyone to view the given blog's posts."""

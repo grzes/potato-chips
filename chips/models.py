@@ -77,6 +77,13 @@ class Post(db.Model):
         prefetch_refprops(objs, Post.author)
         return objs
 
+    @classmethod
+    def query_from(cls, author):
+        query = Post.all().filter("author =", author)
+        objs = query.order('-created').fetch(100)
+        prefetch_refprops(objs, Post.author)
+        return objs
+
 
 class PostIndex(db.Model):
     """An index entity for listing blogposts."""

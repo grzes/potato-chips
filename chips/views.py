@@ -20,7 +20,7 @@ def postlist(request):
             return render(request, "home.html")
 
     else:
-        posts = Post.query_for(reader=request.blog)
+        posts = Post.query_from(request.blog)
         return render(request, "blog.html", {
             'blog': request.blog,
             'posts': posts
