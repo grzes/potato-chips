@@ -2,9 +2,15 @@
 
 
 {% block content %}
-<form method="post">
-	{{ form.as_p }}
-	<p><input type="submit" value="Sign up"/></p>
+<div class="post">
+	<form method="post">
+	<div class="text">
+		{{ form.as_p }}
+	</div>
+	<div class="tools">
+		<input class="date" type="submit" value="Signup"/>
+	</div>
 	{% csrf_token %}
-</form>
+	</form>
+</div>
 {% endblock %}

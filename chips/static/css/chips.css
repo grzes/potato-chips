@@ -99,6 +99,11 @@ h1 a {
     color: #333;
 }
 
+.errorlist {
+	color: #c00;
+}
+
+
 .post .tools {
 	font-weight: bold;
 	font-family: Georgia, serif;
