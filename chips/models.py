@@ -62,6 +62,8 @@ class Post(db.Model):
     created = db.DateTimeProperty(auto_now_add=True, required=True)
 
     def rendered_text(self):
+        if self.deleted:
+            return '<small>deleted</small>'
         return escape(self.text).replace("\n", "<br/>")
 
     @classmethod

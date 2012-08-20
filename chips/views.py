@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.http import Http404
 
-from chips.forms import SignupForm, PostForm
+from chips.forms import SignupForm, PostForm, EditForm
 from chips.models import Blog, Post
 from chips.users import require_user, fullurl
 
@@ -45,10 +45,30 @@ def dash(request):
 
     return render(request, "dash.html", {
             'form': form,
-            'blog': request.user_blog,
+            'user_blog': request.user_blog,
             'posts': posts
         })
 
+
+@require_user(with_blog=True)
+def edit(request, post_id):
+    """Post editing or deletion."""
+    post = Post.get_by_id(int(post_id)) # the url regex makes sure we only get a number here
+
+    if not post or post.author.key() != request.user_blog.key() or post.deleted:
+        raise Http404
+
+    if request.method == 'POST':
+        form = EditForm(request.POST, post=post)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('dash'))
+    else:
+        form = EditForm(post=post)
+
+    return render(request, "edit.html", {
+            'form': form,
+        })
 
 @require_user(with_blog=False)
 def signup(request):

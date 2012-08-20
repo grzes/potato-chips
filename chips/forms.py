@@ -53,3 +53,19 @@ class PostForm(forms.Form):
         )
 
 
+class EditForm(forms.Form):
+    """Post deletion and edit form."""
+    text = forms.CharField(max_length=450, widget=forms.Textarea)
+    delete = forms.BooleanField(required=False)
+
+    def __init__(self, *a, **kw):
+        self.post = kw.pop('post')
+        kw['initial'] = {'text': self.post.text}
+        super(EditForm, self).__init__(*a, **kw)
+
+    def save(self):
+        if self.cleaned_data['delete']:
+            self.post.deleted = True
+        else:
+            self.post.text = self.cleaned_data['text']
+        self.post.put()

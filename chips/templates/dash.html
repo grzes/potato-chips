@@ -11,8 +11,8 @@
 	</div>
 	<div class="tools">
 		<span class="author">
-		<img src="http://www.gravatar.com/avatar/{{blog.emailhash}}?s=19f"/>
-		{{blog.key.name}}
+		<img src="http://www.gravatar.com/avatar/{{ user_blog.emailhash }}?s=19f"/>
+		{{ user_blog.key.name }}
 		</span>
 		<input class="date" type="submit" value="Post"/>
 	</div>
@@ -30,7 +30,14 @@
 				<a href="{{post.author.absolute_url}}"><img src="http://www.gravatar.com/avatar/{{post.author.emailhash}}?s=20"/></a>
 				{{post.author.key.name}}
 			</span>
-			<span class="date">{{post.created|date:"M d, H:i"|lower}}</span>
+			{% if post.deleted %}{%else%}
+			{% ifequal user_blog.key.name post.author.key.name %}
+			<a href="{% url edit post.key.id %}">edit</a>
+			{% endifequal %}
+			{% endif %}
+			<span class="date">
+				{{post.created|date:"M d, H:i"|lower}}
+			</span>
 		</div>
 	</div>
 {% endfor %}
