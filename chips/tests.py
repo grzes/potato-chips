@@ -11,9 +11,13 @@ from google.appengine.ext import testbed
 
 from django.core.urlresolvers import reverse
 from chips.models import Blog, Post
+from chips.users import fullurl
 
 
 settings.SITE_DOMAIN = 'testserver' # our blog selection middleware needs to match on the host
+
+def blogurl(blog):
+    return 'http://%s.%s/' % (blog, settings.SITE_DOMAIN)
 
 
 class TestCase(unittest.TestCase):
@@ -74,6 +78,14 @@ class BlogVisibility(TestCase):
         response = self.client.get(reverse('dash'))
         self.assertEqual(['t3', 't2', 't1'], [p.text for p in response.context['posts']])
 
+    def test_blog_postlist(self):
+        """The blog subdomains allow anyone to view the given blog's posts."""
+        self.create_posts()
+        response = self.client.get(blogurl('bob'), SERVER_NAME='bob')
+        self.assertEqual(['t2'], [p.text for p in response.context['posts']])
+
+        response = self.client.get(blogurl('john'), SERVER_NAME='john')
+        self.assertEqual(['t3', 't1'], [p.text for p in response.context['posts']])
 
 if __name__ == '__main__':
     unittest.main()

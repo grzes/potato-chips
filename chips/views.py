@@ -6,13 +6,23 @@ from django.core.urlresolvers import reverse
 
 from chips.forms import SignupForm, PostForm
 from chips.models import Post
-from chips.users import require_user
+from chips.users import require_user, fullurl
 
 
 def postlist(request):
     """The blog view, if no user logged in or chosen display the home page."""
-    return render(request, "home.html", {
+    # if no blog is selected invite the users to signup or redirect to dash
+    if not request.blog:
+        if request.user_blog:
+            return redirect(fullurl(reverse('dash')))
+        else:
+            return render(request, "home.html")
+
+    else:
+        posts = Post.query_for(reader=request.blog)
+        return render(request, "blog.html", {
             'blog': request.blog,
+            'posts': posts
         })
 
 

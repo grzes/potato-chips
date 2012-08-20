@@ -1,0 +1,11 @@
+{% extends "dash.html" %}
+
+
+{% block content %}
+{% block blog_head %}
+<div class="post">
+	<small class="text">Follow this blog!</small>
+</div>
+{% endblock %}
+{% block posts %}{{ block.super }}{% endblock %}
+{% endblock %}
