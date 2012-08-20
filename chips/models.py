@@ -31,6 +31,7 @@ class Blog(db.Model):
         Friends(key_name='friends', parent=blog, f=[blog.key()]).put()
         return blog
 
+    @db.transactional
     def follow(self, new_friend):
         """Add onself to new_friend's follower list."""
         friends = Friends.get_by_key_name('friends', parent=new_friend)
