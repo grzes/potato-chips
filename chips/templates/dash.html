@@ -27,7 +27,7 @@
 		<div class="text">{{post.rendered_text|safe}}</div>
 		<div class="tools">
 			<span class="author">
-				<img src="http://www.gravatar.com/avatar/{{post.author.emailhash}}?s=20"/>
+				<a href="{{post.author.absolute_url}}"><img src="http://www.gravatar.com/avatar/{{post.author.emailhash}}?s=20"/></a>
 				{{post.author.key.name}}
 			</span>
 			<span class="date">{{post.created|date:"M d, H:i"|lower}}</span>
