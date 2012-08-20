@@ -8,6 +8,9 @@ from utils import prefetch_refprops
 
 class Blog(db.Model):
     """A user profile of sorts, used only for the storing of emailhash'es."""
+    #FIXME: This is verymuch a performance shortcut. Profiles should be separated
+    # and used on friend and index lists instead of blogs (user_id's should be,
+    # on average, shorter than domains - making smaller keys).
     owner = db.StringProperty(required=True)
     emailhash = db.StringProperty(required=True)
 
@@ -48,6 +51,7 @@ class Post(db.Model):
 
     def rendered_text(self):
         return escape(self.text).replace("\n", "<br/>")
+
     @classmethod
     @db.transactional
     def create(cls, author, text, friends):
@@ -56,7 +60,6 @@ class Post(db.Model):
         post.put()
         PostIndex(key_name='i', parent=post, created=post.created, b=friends).put()
         return post
-
 
     @classmethod
     def query_for(cls, reader):

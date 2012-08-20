@@ -51,18 +51,28 @@ class BlogVisibility(TestCase):
     def setUp(self):
         super(BlogVisibility, self).setUp()
 
-        b1 = Blog.create(key_name='john', owner='1', emailhash='#')
-        b2 = Blog.create(key_name='bob', owner='2', emailhash='#')
+        self.b1 = Blog.create(key_name='john', owner='1', emailhash='#')
+        self.b2 = Blog.create(key_name='bob', owner='2', emailhash='#')
 
-        self.p1 = Post.create(author=b1, text="t1", friends=b1.friends())
-        self.p2 = Post.create(author=b2, text="t2", friends=b2.friends())
-        self.p3 = Post.create(author=b1, text="t3", friends=b1.friends())
+    def create_posts(self):
+        self.p1 = Post.create(author=self.b1, text="t1", friends=self.b1.friends())
+        self.p2 = Post.create(author=self.b2, text="t2", friends=self.b2.friends())
+        self.p3 = Post.create(author=self.b1, text="t3", friends=self.b1.friends())
 
     def test_dash_postlist(self):
         """Only see own posts in the dash"""
+        self.create_posts()
         self.login('john.example.com', user_id='1')
         response = self.client.get(reverse('dash'))
         self.assertEqual(['t3', 't1'], [p.text for p in response.context['posts']])
+
+    def test_following_postlist(self):
+        """After following someone you can see their posts"""
+        self.b1.follow(self.b2)
+        self.create_posts()
+        self.login('john.example.com', user_id='1')
+        response = self.client.get(reverse('dash'))
+        self.assertEqual(['t3', 't2', 't1'], [p.text for p in response.context['posts']])
 
 
 if __name__ == '__main__':
