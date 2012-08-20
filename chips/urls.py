@@ -7,6 +7,7 @@ urlpatterns = patterns(
     '',
     url(r'^$', views.postlist, name='postlist'),
     url(r'^dash/$', views.dash, name='dash'),
+    url(r'^follow/(\w+)/$', views.follow, name='follow'),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^__exception_test__/$', views.exception_test, {}),
 )

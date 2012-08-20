@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="post">
+	{% if is_following %}
+	<div class="text">
+		You are already following <strong>{{ follow_blog.key.name }}</strong>.
+	</div>
+	{% else %}
+	<form method="post">
+	<div class="text">
+		You can follow <strong>{{ follow_blog.key.name }}</strong> to see all of it's updates on your dash.
+	</div>
+	<div class="tools">
+		<input class="date" type="submit" value="Follow"/>
+	</div>
+	{% csrf_token %}
+	</form>
+	{% endif %}
+</div>
+{% endblock %}

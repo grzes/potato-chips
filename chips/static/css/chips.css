@@ -150,4 +150,8 @@ h1 a {
 }
 .title a {
 	color: #999;
+}
+strong {
+	font-weight: bold;
+}
 

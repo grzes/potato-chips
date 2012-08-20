@@ -6,7 +6,7 @@
 <div class="title">
 	<img src="http://www.gravatar.com/avatar/{{blog.emailhash}}?s=60"/>
 	<span class="author">{{blog.key.name}}</span><br/>
-	<a href="{% url dash %}">follow</a>
+	<a href="{% url follow blog.key.name %}">follow</a>
 </div>
 {% endblock %}
 {% block posts %}{{ block.super }}{% endblock %}

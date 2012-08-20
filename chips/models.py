@@ -37,6 +37,10 @@ class Blog(db.Model):
             friends.f.append(self.key())
             friends.put()
 
+    def is_following(self, new_friend):
+        """Check if already following."""
+        return bool(Friends.all().filter("f =", self.key()).ancestor(new_friend).count())
+
 
 class Friends(db.Model):
     """A list of "followed" blogs.
