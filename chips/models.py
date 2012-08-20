@@ -13,6 +13,7 @@ class Blog(db.Model):
     # on average, shorter than domains - making smaller keys).
     owner = db.StringProperty(required=True)
     emailhash = db.StringProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True, required=True)
 
     def friends(self):
         return Friends.get_by_key_name('friends', parent=self).f

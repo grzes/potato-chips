@@ -41,7 +41,8 @@ def user_urls(request):
     """Context processor adding user login urls."""
     ctx = {
         'subdomain': request.blog is not None,
-        'dash_url': fullurl(reverse('dash'))
+        'dash_url': fullurl(reverse('dash')),
+        'latest_blogs': Blog.all().order('created').fetch(5)
     }
     if request.user:
         ctx['user'] = request.user

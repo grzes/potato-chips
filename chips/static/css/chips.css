@@ -31,9 +31,8 @@ html, body {
 	background: url(../img/fries.jpg) bottom center no-repeat;
 }
 .footer-wrap p {
-	padding: 30px;
+	padding: 10px;
 }
-
 .content-wrap {
 	border-top: 2px solid #666;
 	background: #ffe89e;
@@ -129,7 +128,7 @@ h1 a {
 	overflow:hidden;
 	*/
 }
-.post .tools .author img {
+.post .tools .author img, .footer-wrap p img {
 	vertical-align: text-top;
 	border-radius: 3px;
 }
