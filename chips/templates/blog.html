@@ -3,8 +3,10 @@
 
 {% block content %}
 {% block blog_head %}
-<div class="post">
-	<small class="text">Follow this blog!</small>
+<div class="title">
+	<img src="http://www.gravatar.com/avatar/{{blog.emailhash}}?s=60"/>
+	<span class="author">{{blog.key.name}}</span><br/>
+	<a href="{% url dash %}">follow</a>
 </div>
 {% endblock %}
 {% block posts %}{{ block.super }}{% endblock %}

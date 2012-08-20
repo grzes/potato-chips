@@ -74,14 +74,13 @@ h1 a {
 
 }
 
-.post .text {
+.post .text, .title {
 	background: #D99B22;
 	width: 100%;
 	border-radius: 6px;
 	padding: 6px;
 	display:block;
 }
-
 .post .text textarea {
 	padding: 6px;
 	border-radius: 4px;
@@ -104,7 +103,7 @@ h1 a {
 }
 
 
-.post .tools {
+.post .tools, .title .author {
 	font-weight: bold;
 	font-family: Georgia, serif;
 	font-size: 16px;
@@ -133,5 +132,22 @@ h1 a {
 .post .tools .author img {
 	vertical-align: text-top;
 	border-radius: 3px;
-
 }
+
+.title {
+	margin-bottom: 20px;
+	height: 48px;
+	position: relative;
+}
+.title img {
+	position: absolute;
+	left: -70px;
+	top: 0;
+	border-radius: 6px;
+}
+.title .author {
+	font-size: 30px;
+}
+.title a {
+	color: #999;
+
