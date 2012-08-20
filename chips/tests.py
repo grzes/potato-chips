@@ -29,7 +29,6 @@ class TestCase(unittest.TestCase):
         self.client = Client()
 
     def login(self, email='', user_id=''):
-        default_env = copy(testbed.DEFAULT_ENVIRONMENT)
         self.testbed.setup_env(overwrite=True, user_email=email, user_id=user_id)
 
     def tearDown(self):
