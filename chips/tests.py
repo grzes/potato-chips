@@ -71,7 +71,7 @@ class BlogVisibility(TestCase):
 
     def test_following_postlist(self):
         """After following someone you can see their posts"""
-        self.b1.follow(self.b2)
+        self.b1.follow_or_unfollow(self.b2)
         self.create_posts()
         self.login('john.example.com', user_id='1')
         response = self.client.get(reverse('dash'))
@@ -90,7 +90,6 @@ class BlogVisibility(TestCase):
         response = self.client.get(blogurl('john'), SERVER_NAME='john')
         self.assertEqual(['t3', 't1'], [p.text for p in response.context['posts']])
 
-
     def test_blog_postlist(self):
         """The blog subdomains allow anyone to view the given blog's posts."""
         self.create_posts()
@@ -99,6 +98,26 @@ class BlogVisibility(TestCase):
 
         response = self.client.get(blogurl('john'), SERVER_NAME='john')
         self.assertEqual(['t3', 't1'], [p.text for p in response.context['posts']])
+
+    def test_follow_unfollow_or_unfollow(self):
+        """Make sure posts are only added to the stream while we're following someone."""
+        self.create_posts()
+        self.login('john.example.com', user_id='1')
+        response = self.client.get(reverse('dash'))
+        self.assertEqual(['t3', 't1'], [p.text for p in response.context['posts']])
+
+        self.client.post(reverse('follow', args=('bob',)))
+        Post.create(author=self.b2, text="b2", friends=self.b2.friends())
+        response = self.client.get(reverse('dash'))
+        self.assertEqual(['b2', 't3', 't1'], [p.text for p in response.context['posts']])
+
+        # a second post to the follow view unfollows
+        self.client.post(reverse('follow', args=('bob',)))
+        Post.create(author=self.b2, text="b3", friends=self.b2.friends())
+        response = self.client.get(reverse('dash'))
+        self.assertEqual(['b2', 't3', 't1'], [p.text for p in response.context['posts']])
+
+
 
 if __name__ == '__main__':
     unittest.main()

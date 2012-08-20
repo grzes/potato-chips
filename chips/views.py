@@ -79,8 +79,9 @@ def follow(request, blog):
 
     if request.method == 'POST':
         # there's no form really, just post and pass the csrf check
-        request.user_blog.follow(blog)
+        request.user_blog.follow_or_unfollow(blog)
         return redirect(reverse('dash'))
+
     return render(request, "follow.html", {
         'follow_blog': blog,
         'is_following': request.user_blog.is_following(blog)

@@ -32,12 +32,15 @@ class Blog(db.Model):
         return blog
 
     @db.transactional
-    def follow(self, new_friend):
+    def follow_or_unfollow(self, new_friend):
         """Add onself to new_friend's follower list."""
         friends = Friends.get_by_key_name('friends', parent=new_friend)
-        if self.key() not in friends.f:
-            friends.f.append(self.key())
-            friends.put()
+        key = self.key()
+        if key not in friends.f:
+            friends.f.append(key)
+        else:
+            friends.f.remove(key)
+        friends.put()
 
     def is_following(self, new_friend):
         """Check if already following."""
