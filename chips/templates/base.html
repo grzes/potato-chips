@@ -8,9 +8,12 @@
   </head>
   <body>
     <div class="header">
-      <h1><a href="{% url dash %}">potato chips</a></h1>
+      <h1><a href="{{ dash_url }}">potato chips</a></h1>
 
       <div class="user">
+      {% if subdomain %}
+        <a href="{{ dash_url }}">dash</a>
+      {% else %}
       {% if user %}
         {% if user_blog %}
           <a href="{{user_blog.absolute_url}}">my blog</a> |
@@ -19,6 +22,7 @@
         {{user.nickname}} | <a href="{{logout_url}}">logout</a>
       {% else %}
         <a href="{{login_url}}">login</a>
+      {% endif %}
       {% endif %}
       </div>
     </div>

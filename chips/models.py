@@ -17,6 +17,9 @@ class Blog(db.Model):
     def friends(self):
         return Friends.get_by_key_name('friends', parent=self).f
 
+    def absolute_url(self):
+        return "http://%s.%s/" % (self.key().name(), settings.SITE_DOMAIN)
+
     @classmethod
     @db.transactional
     def create(cls, **properties):

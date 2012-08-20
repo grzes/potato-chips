@@ -39,7 +39,10 @@ class UserBlogMiddleware(object):
 
 def user_urls(request):
     """Context processor adding user login urls."""
-    ctx = {}
+    ctx = {
+        'subdomain': request.blog is not None,
+        'dash_url': fullurl(reverse('dash'))
+    }
     if request.user:
         ctx['user'] = request.user
         ctx['user_blog'] = request.user_blog
